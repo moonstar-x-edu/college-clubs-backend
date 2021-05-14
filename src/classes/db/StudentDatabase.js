@@ -11,7 +11,7 @@ class StudentDatabase extends SQLiteDatabase {
   }
 
   async create(student) {
-    if (student instanceof Student) {
+    if (!(student instanceof Student)) {
       throw new InvalidObjectTypeError('New student needs to be of instance Student.');
     }
 
