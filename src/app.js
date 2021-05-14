@@ -5,6 +5,7 @@ const logger = require('@greencoast/logger');
 const { logRequests, onlySupportedMethods, handleError } = require('./middleware');
 const { ResourceNotFoundError } = require('./errors');
 const Response = require('./classes/Response');
+const api = require('./api');
 
 const HTTP_PORT = process.env.HTTP_PORT || 8080;
 
@@ -13,6 +14,8 @@ app.use(cors());
 app.use(logRequests);
 
 app.options('*', cors());
+
+app.use('/api', api);
 
 app.get('/', (req, res) => {
   const response = new Response(Response.CODES.OK);
