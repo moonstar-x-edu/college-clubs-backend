@@ -5,7 +5,7 @@ class Validator {
     const { error: validationError, value: validatedData } = Schema.validate(obj, { convert: false });
 
     if (validationError) {
-      throw new InvalidBodyError(validationError);
+      throw new InvalidBodyError(validationError.message);
     }
 
     return validatedData;
