@@ -56,6 +56,10 @@ class StudentDatabase extends SQLiteDatabase {
   }
 
   async update(id, newStudent) {
+    if (!(newStudent instanceof Student.Partial)) {
+      throw new InvalidObjectTypeError('New student needs to be of instance Student.Partial.');
+    }
+
     const old = await this.get(id);
     const merged = { ...old, ...newStudent };
 
