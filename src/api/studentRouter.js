@@ -46,4 +46,32 @@ router.get('/student/:id', (req, res, next) => {
     .catch(next);
 });
 
+router.delete('/student/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  return students.delete(id)
+    .then((removed) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(removed));
+    })
+    .catch(next);
+});
+
+router.put('/student/:id', (req, res, next) => {
+  const { body, params: { id } } = req;
+
+  if (!body || Object.keys(body).length < 1) {
+    throw new InvalidBodyError(Response.DEFAULT_MESSAGES.MISSING_JSON_BODY);
+  }
+
+  return students.update(id, Student.from(body, false))
+    .then((updated) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(updated));
+    })
+    .catch(next);
+});
+
+router.all('/student/:id', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+
 module.exports = router;
