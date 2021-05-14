@@ -3,8 +3,16 @@ const { v4: uuid } = require('uuid');
 const Validator = require('./Validator');
 
 class Student {
-  constructor() {
+  constructor(validated) {
+    for (const key in validated) {
+      this[key] = validated[key];
+    }
+
     this.id = uuid();
+  }
+
+  toString() {
+    return JSON.stringify(this.data);
   }
 
   static from(obj, toCreate = true) {
@@ -16,7 +24,8 @@ class Student {
 
 Student.SCHEMA = {
   CREATE: Joi.object({
-    id: Joi.forbidden()
+    id: Joi.forbidden(),
+    name: Joi.string().trim().required()
   }),
   UPDATE: Joi.object({
     id: Joi.forbidden()
