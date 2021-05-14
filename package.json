@@ -1,0 +1,22 @@
+{
+  "name": "college-clubs-backend",
+  "version": "1.0.0",
+  "description": "This is a partial implementation of the API for our final project for Diseño de Sistemas. This repo contains the code of the Express API that will expose certain endpoints notably to get access to our system's main entities.",
+  "main": "src/app.js",
+  "private": true,
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon npm start",
+    "lint:errors-only": "eslint src --quiet",
+    "lint": "eslint src"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "eslint-config-greencoast": "0.0.2",
+    "nodemon": "^2.0.7"
+  }
+}
