@@ -26,12 +26,24 @@ Student.SCHEMA = {
   CREATE: Joi.object({
     id: Joi.forbidden(),
     name: Joi.string().trim().required(),
-    lastName: Joi.string().trim().required()
+    lastName: Joi.string().trim().required(),
+    code: Joi.string().trim().length(6).required(),
+    email: Joi.string().email().required(),
+    semester: Joi.number().min(1).max(15).required(),
+    career: Joi.string().trim().required(),
+    birthday: Joi.string().isoDate().required(),
+    joinedAt: Joi.string().isoDate().required()
   }),
   UPDATE: Joi.object({
     id: Joi.forbidden(),
     name: Joi.string().trim(),
-    lastName: Joi.string().trim()
+    lastName: Joi.string().trim(),
+    code: Joi.forbidden(),
+    email: Joi.forbidden(),
+    semester: Joi.number().min(1).max(15),
+    career: Joi.string().trim(),
+    birthday: Joi.forbidden(),
+    joinedAt: Joi.forbidden()
   })
 };
 
