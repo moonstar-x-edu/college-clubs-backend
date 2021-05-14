@@ -1,7 +1,7 @@
 /* eslint-disable max-params */
 const logger = require('@greencoast/logger');
 const onFinished = require('on-finished');
-const { ResourceNotFoundError } = require('../errors');
+const { ResourceNotFoundError, InvalidBodyError } = require('../errors');
 const Response = require('../classes/Response');
 
 const onlySupportedMethods = (methods) => {
@@ -18,6 +18,10 @@ const handleError = (error, req, res, next) => {
 
   if (error instanceof ResourceNotFoundError) {
     code = Response.CODES.NOT_FOUND;
+  }
+
+  if (error instanceof InvalidBodyError) {
+    code = Response.CODES.BAD_REQUEST;
   }
 
   const response = new Response(code);
