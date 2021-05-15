@@ -1,12 +1,12 @@
 const Response = require('../classes/Response');
 
-class InvalidObjectTypeError extends Error {
+class DatabaseError extends Error {
   constructor(message) {
     super(message);
 
-    this.name = 'InvalidObjectTypeError';
+    this.name = 'DatabaseError';
     this.statusCode = Response.CODES.INTERNAL_SERVER_ERROR;
   }
 }
 
-module.exports = InvalidObjectTypeError;
+module.exports = DatabaseError;

@@ -1,5 +1,6 @@
 const SQLiteDatabase = require('./SQLiteDatabase');
-const { ResourceAlreadyExistsError, ResourceNotFoundError, InvalidObjectTypeError } = require('../../errors');
+const ClubMembersManager = require('./ClubMembersManager');
+const { ResourceAlreadyExistsError, ResourceNotFoundError, InvalidObjectTypeError, DatabaseError } = require('../../errors');
 const { Club } = require('../entities');
 
 class ClubDatabase extends SQLiteDatabase {
@@ -8,6 +9,8 @@ class ClubDatabase extends SQLiteDatabase {
 
     this.clubs = this._createStore('clubs');
     this._prepareKeys(this.clubs);
+
+    this.membersManager = new ClubMembersManager(this._createStore('members'));
   }
 
   async create(club) {
@@ -25,6 +28,12 @@ class ClubDatabase extends SQLiteDatabase {
 
     const keys = await this.getKeys(this.clubs);
     await this.setKeys(this.clubs, [...keys, club.id]);
+
+    const createdKeysForClub = await this.membersManager.createKeysForClub(club.id);
+
+    if (!createdKeysForClub) {
+      throw new DatabaseError(`Keys for ${club.id} already existed! Did the club database and members go out-of-sync?`);
+    }
 
     return club;
   }
@@ -52,6 +61,19 @@ class ClubDatabase extends SQLiteDatabase {
     const keys = await this.getKeys(this.clubs);
     await this.setKeys(this.clubs, keys.filter((key) => key !== id));
 
+    try {
+      await this.membersManager.deleteAllClubMembers(old.id);
+
+      const deletedKeysForClub = await this.membersManager.deleteKeysForClub(old.id);
+  
+      if (!deletedKeysForClub) {
+        throw new Error(); // Will get re-thrown as proper error instance.
+      }
+    } catch (err) {
+      throw new DatabaseError(`Keys for ${old.id} did not exist! Did the club database and members go out-of-sync?`);
+    }
+    
+
     return old;
   }
 
@@ -66,6 +88,18 @@ class ClubDatabase extends SQLiteDatabase {
     await this.clubs.set(id, merged);
 
     return merged;
+  }
+
+  async getClubMemberInAnyClubByStudentID(id) {
+    const clubs = await this.getAll();
+
+    const allMembers = await Promise.all(clubs.map((club) => {
+      return this.membersManager.getAllClubMembers(club.id);
+    }));
+
+    const allMembersFlat = allMembers.reduce((acc, cur) => acc.concat(cur), []);
+
+    return allMembersFlat.find((member) => member.studentID === id);
   }
 }
 
