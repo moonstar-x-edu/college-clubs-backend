@@ -51,6 +51,12 @@ class ClubMemberManager {
     return old;
   }
 
+  async deleteAllClubMembers(clubID) {
+    const keys = await this.getKeysForClub(clubID);
+
+    return Promise.all(keys.map((key) => this.deleteClubMember(clubID, key)));
+  }
+
   async updateClubMember(clubID, clubMemberID, newClubMember) {
     if (!(newClubMember instanceof ClubMember.Partial)) {
       throw new InvalidObjectTypeError('New club member needs to be of instance ClubMember.Partial');

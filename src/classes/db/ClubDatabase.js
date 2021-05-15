@@ -1,5 +1,6 @@
 const SQLiteDatabase = require('./SQLiteDatabase');
-const { ResourceAlreadyExistsError, ResourceNotFoundError, InvalidObjectTypeError } = require('../../errors');
+const ClubMemberManager = require('./ClubMemberManager');
+const { ResourceAlreadyExistsError, ResourceNotFoundError, InvalidObjectTypeError, DatabaseError } = require('../../errors');
 const { Club } = require('../entities');
 
 class ClubDatabase extends SQLiteDatabase {
@@ -8,6 +9,8 @@ class ClubDatabase extends SQLiteDatabase {
 
     this.clubs = this._createStore('clubs');
     this._prepareKeys(this.clubs);
+
+    this.memberManager = new ClubMemberManager(this._createStore('members'));
   }
 
   async create(club) {
@@ -25,6 +28,12 @@ class ClubDatabase extends SQLiteDatabase {
 
     const keys = await this.getKeys(this.clubs);
     await this.setKeys(this.clubs, [...keys, club.id]);
+
+    const createdKeysForClub = await this.memberManager.createKeysForClub(club.id);
+
+    if (!createdKeysForClub) {
+      throw new DatabaseError(`Keys for ${club.id} already existed! Did the club database and members go out-of-sync?`);
+    }
 
     return club;
   }
@@ -51,6 +60,19 @@ class ClubDatabase extends SQLiteDatabase {
 
     const keys = await this.getKeys(this.clubs);
     await this.setKeys(this.clubs, keys.filter((key) => key !== id));
+
+    try {
+      await this.memberManager.deleteAllClubMembers(old.id);
+
+      const deletedKeysForClub = await this.memberManager.deleteKeysForClub(old.id);
+  
+      if (!deletedKeysForClub) {
+        throw new Error(); // Will get re-thrown as proper error instance.
+      }
+    } catch (err) {
+      throw new DatabaseError(`Keys for ${old.id} did not exist! Did the club database and members go out-of-sync?`);
+    }
+    
 
     return old;
   }
