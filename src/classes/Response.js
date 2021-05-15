@@ -1,5 +1,3 @@
-const { InvalidStatusError } = require('../errors');
-
 class Response {
   constructor(code) {
     this.code = code;
@@ -28,7 +26,7 @@ class Response {
         break;
 
       default:
-        throw new InvalidStatusError(`Status code ${this.code} not supported!`);
+        throw new Error(`Status code ${this.code} not supported!`);
     }
 
     return this.response;
