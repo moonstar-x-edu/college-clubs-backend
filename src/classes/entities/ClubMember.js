@@ -25,7 +25,7 @@ class ClubMember {
 ClubMember.SCHEMA = {
   CREATE: Joi.object({
     id: Joi.forbidden(),
-    nickname: Joi.string().trim(),
+    nickname: Joi.string().trim().allow(null).allow('').default(null),
     imageURL: Joi.string().uri().allow(null).allow('').default(null),
     joinedAt: Joi.string().isoDate().required(),
     studentID: Joi.string().trim().required()
