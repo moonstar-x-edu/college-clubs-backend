@@ -17,10 +17,15 @@ class ClubMembersManager {
       throw new ResourceAlreadyExistsError(`Club member ${clubMember.id} already exists in club ${clubID}.`);
     }
 
-    await this.members.set(`${clubID}:${clubMember.id}`, clubMember);
-
     const keys = await this.getKeysForClub(clubID);
+
+    if (!keys) {
+      throw new ResourceNotFoundError(`Club ${clubID} does not exist.`);
+    }
+
     await this.setKeysForClub(clubID, [...keys, clubMember.id]);
+
+    await this.members.set(`${clubID}:${clubMember.id}`, clubMember);
 
     return clubMember;
   }
@@ -37,6 +42,10 @@ class ClubMembersManager {
 
   async getAllClubMembers(clubID) {
     const keys = await this.getKeysForClub(clubID);
+
+    if (!keys) {
+      throw new ResourceNotFoundError(`Club ${clubID} does not exist.`);
+    }
 
     return Promise.all(keys.map((key) => this.getClubMember(clubID, key)));
   }
