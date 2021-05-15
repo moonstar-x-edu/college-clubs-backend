@@ -109,4 +109,43 @@ router.post('/club/:clubID/members', (req, res, next) => {
 
 router.all('/club/:clubID/members', onlySupportedMethods(['GET', 'POST']));
 
+router.get('/club/:clubID/member/:memberID', (req, res, next) => {
+  const { clubID, memberID } = req.params;
+
+  return clubs.membersManager.getClubMember(clubID, memberID)
+    .then((data) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(data));
+    })
+    .catch(next);
+});
+
+router.delete('/club/:clubID/member/:memberID', (req, res, next) => {
+  const { clubID, memberID } = req.params;
+
+  return clubs.membersManager.deleteClubMember(clubID, memberID)
+    .then((deleted) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(deleted));
+    })
+    .catch(next);
+});
+
+router.put('/club/:clubID/member/:memberID', (req, res, next) => {
+  const { body, params: { clubID, memberID } } = req;
+
+  if (!body || Object.keys(body).length < 1) {
+    throw new InvalidBodyError(Response.DEFAULT_MESSAGES.MISSING_JSON_BODY);
+  }
+
+  return clubs.membersManager.updateClubMember(clubID, memberID, ClubMember.from(body, false))
+    .then((updated) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(updated));
+    })
+    .catch(next);
+});
+
+router.all('/club/:clubID/member/:memberID', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+
 module.exports = router;
