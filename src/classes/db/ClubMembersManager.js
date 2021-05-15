@@ -1,7 +1,7 @@
 const { ResourceAlreadyExistsError, ResourceNotFoundError, InvalidObjectTypeError } = require('../../errors');
 const { ClubMember } = require('../entities');
 
-class ClubMemberManager {
+class ClubMembersManager {
   constructor(store) {
     this.members = store;
   }
@@ -94,4 +94,4 @@ class ClubMemberManager {
   }
 }
 
-module.exports = ClubMemberManager;
+module.exports = ClubMembersManager;
