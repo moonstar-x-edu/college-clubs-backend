@@ -193,6 +193,130 @@ Update a particular student from the students database. Requires an `application
 }
 ```
 
+### GET /api/clubs
+
+Get all the clubs saved in the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": [
+    {
+      "name": "New Club Name",
+      "description": "My Club",
+      "imageURL": "https://example.com/img.jpg",
+      "createdAt": "2019-02-03",
+      "id": "b49f8d44-2fb4-4d85-be8e-5678f35538d3"
+    },
+    {
+      "name": "Club",
+      "description": "My Club",
+      "imageURL": "https://example.com/img.jpg",
+      "createdAt": "2019-02-03",
+      "id": "1794d4b0-4efa-4441-a38d-c238bc40069e"
+    }
+  ]
+}
+```
+
+### POST /api/clubs
+
+Create a new club in the clubs database. Requires an `application/json` body with the following properties.
+
+| Property    | Type                | Description                                           |
+|-------------|---------------------|-------------------------------------------------------|
+| name        | String **Required** | Club's name.                                          |
+| description | String              | Club's description. Can be empty or set to `null`.    |
+| imageURL    | String **Required** | Club's image URL. Must be a valid URI.                |
+| createdAt   | String **Required** | Club's creation date. Must be **ISO8601 compliant**.  |
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 201,
+  "data": {
+    "name": "Club",
+    "description": "My Club",
+    "imageURL": "https://example.com/img.jpg",
+    "createdAt": "2019-02-03",
+    "id": "1794d4b0-4efa-4441-a38d-c238bc40069e"
+  }
+}
+```
+
+### GET /api/club/:id
+
+Get a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "name": "Club",
+    "description": "My Club",
+    "imageURL": "https://example.com/img.jpg",
+    "createdAt": "2019-02-03",
+    "id": "1ca625d9-8858-487a-ab61-1e6806237de3"
+  }
+}
+```
+
+### DELETE /api/club/:id
+
+Delete a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "name": "Club",
+    "description": "My Club",
+    "imageURL": "https://example.com/img.jpg",
+    "createdAt": "2019-02-03",
+    "id": "1ca625d9-8858-487a-ab61-1e6806237de3"
+  }
+}
+```
+
+### PUT /api/club/:id
+
+Update a particular club from the clubs database. Requires an `application/json` body with the following properties.
+
+| Property    | Type    | Description                                        |
+|-------------|---------|----------------------------------------------------|
+| name        | String  | Club's name.                                       |
+| description | String  | Club's description. Can be empty or set to `null`. |
+| imageURL    | String  | Club's image URL. Must be a valid URI.             |
+
+> Only add the properties you wish to edit.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "name": "New Club Name",
+    "description": "My Club",
+    "imageURL": "https://example.com/img.jpg",
+    "createdAt": "2019-02-03",
+    "id": "b49f8d44-2fb4-4d85-be8e-5678f35538d3"
+  }
+}
+```
+
 ## Authors
 
 This project was created in pair-programming by Raí Díaz, José Luis Contreras and Christian López.
