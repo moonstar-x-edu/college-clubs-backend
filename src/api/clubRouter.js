@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Response = require('../classes/Response');
 const { onlySupportedMethods } = require('../middleware');
-const { InvalidBodyError } = require('../errors');
+const { InvalidBodyError, ResourceAlreadyExistsError } = require('../errors');
 const { Club, ClubMember } = require('../classes/entities');
 const { clubs, students } = require('../classes/db');
 
@@ -98,10 +98,17 @@ router.post('/club/:clubID/members', (req, res, next) => {
 
   return students.get(body.studentID)
     .then(() => {
-      return clubs.membersManager.createClubMember(clubID, ClubMember.from(body))
-        .then((created) => {
-          const response = new Response(Response.CODES.CREATED);
-          return res.status(response.code).send(response.create(created));
+      return clubs.getClubMemberInAnyClubByStudentID(body.studentID)
+        .then((member) => {
+          if (member) {
+            throw new ResourceAlreadyExistsError(`Student ${body.studentID} is already a member of a club!`);
+          }
+
+          return clubs.membersManager.createClubMember(clubID, ClubMember.from(body))
+            .then((created) => {
+              const response = new Response(Response.CODES.CREATED);
+              return res.status(response.code).send(response.create(created));
+            });
         });
     })
     .catch(next);
