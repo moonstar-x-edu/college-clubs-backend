@@ -89,18 +89,6 @@ class ClubDatabase extends SQLiteDatabase {
 
     return merged;
   }
-
-  async addClubMember(id, clubMember) {
-    const club = await this.get(id);
-
-    return await this.memberManager.createClubMember(club.id, clubMember);
-  }
-
-  async kickClubMember(clubID, clubMemberID) {
-    const club = await this.get(clubID);
-
-    return await this.memberManager.deleteClubMember(club.id, clubMemberID);
-  }
 }
 
 module.exports = ClubDatabase;
