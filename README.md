@@ -317,6 +317,129 @@ Update a particular club from the clubs database. Requires an `application/json`
 }
 ```
 
+### GET /api/club/:clubID/members
+
+Get all the members inside a particular club in the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": [
+    {
+      "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
+      "joinedAt": "2021-04-04",
+      "nickname": null,
+      "imageURL": null,
+      "id": "75c2a2c0-47e9-4fa6-ac42-8a4971d14c59"
+    },
+    {
+      "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
+      "joinedAt": "2021-04-04",
+      "nickname": null,
+      "imageURL": null,
+      "id": "4daf9d6a-75e7-4f4b-8e25-6a1812e19d4a"
+    }
+  ]
+}
+```
+
+### POST /api/club/:clubID/members
+
+Create a new member in a particular club in the clubs database. Requires an `application/json` body with the following properties.
+
+| Property    | Type                | Description                                               |
+|-------------|---------------------|-----------------------------------------------------------|
+| nickname    | String              | Club member's nickname. Can be empty or set to `null`.    |
+| studentID   | String **Required** | Club member's student ID (not the same as student code).  |
+| imageURL    | String              | Club member's profile image URL. Must be a valid URI.     |
+| joinedAt    | String **Required** | Club member's join date. Must be **ISO8601 compliant**.   |
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 201,
+  "data": {
+    "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
+    "joinedAt": "2021-04-04",
+    "nickname": null,
+    "imageURL": null,
+    "id": "4daf9d6a-75e7-4f4b-8e25-6a1812e19d4a"
+  }
+}
+```
+
+### GET /api/club/:clubID/member/:memberID
+
+Get a particular member from a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
+    "joinedAt": "2021-04-04",
+    "nickname": null,
+    "imageURL": null,
+    "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a"
+  }
+}
+```
+
+### DELETE /api/club/:clubID/member/:memberID
+
+Delete a particular member from a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
+    "joinedAt": "2021-04-04",
+    "imageURL": null,
+    "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a",
+    "nickname": "Hi"
+  }
+}
+```
+
+### PUT /api/club/:clubID/member/:memberID
+
+Update a particular member from a particular club from the clubs database. Requires an `application/json` body with the following properties.
+
+| Property    | Type      | Description                                               |
+|-------------|-----------|-----------------------------------------------------------|
+| nickname    | String    | Club member's nickname. Can be empty or set to `null`.    |
+| imageURL    | String    | Club member's profile image URL. Must be a valid URI.     |
+
+> Only add the properties you wish to edit.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
+    "joinedAt": "2021-04-04",
+    "imageURL": null,
+    "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a",
+    "nickname": "Nickname"
+  }
+}
+```
+
 ## Authors
 
 This project was created in pair-programming by Raí Díaz, José Luis Contreras and Christian López.
