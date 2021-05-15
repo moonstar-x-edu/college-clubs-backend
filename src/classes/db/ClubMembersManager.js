@@ -42,7 +42,7 @@ class ClubMembersManager {
   }
 
   async deleteClubMember(clubID, id) {
-    const old = await this.getClubMember(`${clubID}:${id}`);
+    const old = await this.getClubMember(clubID, id);
     await this.members.delete(`${clubID}:${id}`);
 
     const keys = await this.getKeysForClub(clubID);
@@ -62,7 +62,7 @@ class ClubMembersManager {
       throw new InvalidObjectTypeError('New club member needs to be of instance ClubMember.Partial');
     }
 
-    const old = await this.get(`${clubID}:${clubMemberID}`);
+    const old = await this.getClubMember(clubID, clubMemberID);
     const merged = { ...old, ...newClubMember };
 
     await this.members.set(`${clubID}:${clubMemberID}`, merged);
