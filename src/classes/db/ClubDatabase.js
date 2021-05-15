@@ -89,6 +89,18 @@ class ClubDatabase extends SQLiteDatabase {
 
     return merged;
   }
+
+  async getClubMemberInAnyClubByStudentID(id) {
+    const clubs = await this.getAll();
+
+    const allMembers = await Promise.all(clubs.map((club) => {
+      return this.membersManager.getAllClubMembers(club.id);
+    }));
+
+    const allMembersFlat = allMembers.reduce((acc, cur) => acc.concat(cur), []);
+
+    return allMembersFlat.find((member) => member.studentID === id);
+  }
 }
 
 module.exports = ClubDatabase;
