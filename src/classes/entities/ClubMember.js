@@ -25,15 +25,17 @@ class ClubMember {
 ClubMember.SCHEMA = {
   CREATE: Joi.object({
     id: Joi.forbidden(),
-    nickname: Joi.string().trim().required(),
+    nickname: Joi.string().trim(),
     imageURL: Joi.string().uri().allow(null).allow('').default(null),
-    joinedAt: Joi.string().isoDate().required()
+    joinedAt: Joi.string().isoDate().required(),
+    studentID: Joi.string().trim().required()
   }),
   UPDATE: Joi.object({
     id: Joi.forbidden(),
     nickname: Joi.string().trim(),
     imageURL: Joi.string().uri().allow(null).allow(''),
-    joinedAt: Joi.forbidden()
+    joinedAt: Joi.forbidden(),
+    studentID: Joi.forbidden()
   })
 };
 
