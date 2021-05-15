@@ -348,7 +348,7 @@ Get all the members inside a particular club in the clubs database.
 
 ### POST /api/club/:clubID/members
 
-Create a new member in a particular club in the clubs database. Requires an `application/json` body with the following properties.
+Create a new member in a particular club in the clubs database. Requires an `application/json` body with the following properties. A student may only be in one particular club, meaning that if it's already in one it may not join another simultaneously.
 
 | Property    | Type                | Description                                               |
 |-------------|---------------------|-----------------------------------------------------------|
