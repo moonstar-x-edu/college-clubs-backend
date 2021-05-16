@@ -57,7 +57,7 @@ router.delete('/club/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/club/:id', (req, res, next) => {
+router.patch('/club/:id', (req, res, next) => {
   const { body, params: { id } } = req;
 
   if (!body || Object.keys(body).length < 1) {
@@ -72,7 +72,7 @@ router.put('/club/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.all('/club/:id', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+router.all('/club/:id', onlySupportedMethods(['GET', 'DELETE', 'PATCH']));
 
 router.get('/club/:clubID/members', (req, res, next) => {
   const { clubID } = req.params;
@@ -138,7 +138,7 @@ router.delete('/club/:clubID/member/:memberID', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/club/:clubID/member/:memberID', (req, res, next) => {
+router.patch('/club/:clubID/member/:memberID', (req, res, next) => {
   const { body, params: { clubID, memberID } } = req;
 
   if (!body || Object.keys(body).length < 1) {
@@ -153,7 +153,7 @@ router.put('/club/:clubID/member/:memberID', (req, res, next) => {
     .catch(next);
 });
 
-router.all('/club/:clubID/member/:memberID', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+router.all('/club/:clubID/member/:memberID', onlySupportedMethods(['GET', 'DELETE', 'PATCH']));
 
 router.get('/club/:clubID/posts', (req, res, next) => {
   const { clubID } = req.params;
@@ -212,7 +212,7 @@ router.delete('/club/:clubID/post/:postID', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/club/:clubID/post/:postID', (req, res, next) => {
+router.patch('/club/:clubID/post/:postID', (req, res, next) => {
   const { body, params: { clubID, postID } } = req;
 
   if (!body || Object.keys(body).length < 1) {
@@ -227,9 +227,9 @@ router.put('/club/:clubID/post/:postID', (req, res, next) => {
     .catch(next);
 });
 
-router.all('/club/:clubID/post/:postID', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+router.all('/club/:clubID/post/:postID', onlySupportedMethods(['GET', 'DELETE', 'PATCH']));
 
-router.put('/club/:clubID/post/:postID/like', (req, res, next) => {
+router.patch('/club/:clubID/post/:postID/like', (req, res, next) => {
   const { clubID, postID } = req.params;
 
   return clubs.postsManager.updatePostLikes(clubID, postID, 1)
@@ -240,9 +240,9 @@ router.put('/club/:clubID/post/:postID/like', (req, res, next) => {
     .catch(next);
 });
 
-router.all('/club/:clubID/post/:postID/like', onlySupportedMethods(['PUT']));
+router.all('/club/:clubID/post/:postID/like', onlySupportedMethods(['PATCH']));
 
-router.put('/club/:clubID/post/:postID/dislike', (req, res, next) => {
+router.patch('/club/:clubID/post/:postID/dislike', (req, res, next) => {
   const { clubID, postID } = req.params;
 
   return clubs.postsManager.updatePostLikes(clubID, postID, -1)
@@ -253,6 +253,6 @@ router.put('/club/:clubID/post/:postID/dislike', (req, res, next) => {
     .catch(next);
 });
 
-router.all('/club/:clubID/post/:postID/dislike', onlySupportedMethods(['PUT']));
+router.all('/club/:clubID/post/:postID/dislike', onlySupportedMethods(['PATCH']));
 
 module.exports = router;
