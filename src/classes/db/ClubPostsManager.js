@@ -75,6 +75,18 @@ class ClubPostManager extends ClubEntitiesManager {
 
     return merged;
   }
+
+  async updatePostLikes(clubID, postID, increment) {
+    const old = await this.getPost(clubID, postID);
+    const newPost = {
+      ...old,
+      likes: old.likes + increment
+    };
+
+    await this.store.set(`${clubID}:${postID}`, newPost);
+
+    return newPost;
+  }
 }
 
 module.exports = ClubPostManager;

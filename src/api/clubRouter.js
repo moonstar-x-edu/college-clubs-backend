@@ -229,4 +229,30 @@ router.put('/club/:clubID/post/:postID', (req, res, next) => {
 
 router.all('/club/:clubID/post/:postID', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
 
+router.put('/club/:clubID/post/:postID/like', (req, res, next) => {
+  const { clubID, postID } = req.params;
+
+  return clubs.postsManager.updatePostLikes(clubID, postID, 1)
+    .then((updated) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(updated));
+    })
+    .catch(next);
+});
+
+router.all('/club/:clubID/post/:postID/like', onlySupportedMethods(['PUT']));
+
+router.put('/club/:clubID/post/:postID/dislike', (req, res, next) => {
+  const { clubID, postID } = req.params;
+
+  return clubs.postsManager.updatePostLikes(clubID, postID, -1)
+    .then((updated) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(updated));
+    })
+    .catch(next);
+});
+
+router.all('/club/:clubID/post/:postID/dislike', onlySupportedMethods(['PUT']));
+
 module.exports = router;
