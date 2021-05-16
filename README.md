@@ -160,7 +160,7 @@ Delete a particular student from the students database.
 }
 ```
 
-### PUT /api/student/:id
+### PATCH /api/student/:id
 
 Update a particular student from the students database. Requires an `application/json` body with the following properties.
 
@@ -289,7 +289,7 @@ Delete a particular club from the clubs database.
 }
 ```
 
-### PUT /api/club/:id
+### PATCH /api/club/:id
 
 Update a particular club from the clubs database. Requires an `application/json` body with the following properties.
 
@@ -419,7 +419,7 @@ Delete a particular member from a particular club from the clubs database.
 }
 ```
 
-### PUT /api/club/:clubID/member/:memberID
+### PATCH /api/club/:clubID/member/:memberID
 
 Update a particular member from a particular club from the clubs database. Requires an `application/json` body with the following properties.
 
@@ -563,7 +563,7 @@ Delete a particular post from a particular club from the clubs database.
 }
 ```
 
-### PUT /api/club/:clubID/post/:postID
+### PATCH /api/club/:clubID/post/:postID
 
 Update a particular post from a particular club from the clubs database. Requires an `application/json` body with the following properties.
 
@@ -601,7 +601,7 @@ Update a particular post from a particular club from the clubs database. Require
 }
 ```
 
-### PUT /api/club/:clubID/post/:postID/like
+### PATCH /api/club/:clubID/post/:postID/like
 
 Increment the like count of a particular post from a particular club from the clubs database.
 
@@ -628,7 +628,7 @@ Increment the like count of a particular post from a particular club from the cl
 }
 ```
 
-### PUT /api/club/:clubID/post/:postID/dislike
+### PATCH /api/club/:clubID/post/:postID/dislike
 
 Decrement the like count of a particular post from a particular club from the clubs database.
 
