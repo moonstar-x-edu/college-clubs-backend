@@ -333,14 +333,16 @@ Get all the members inside a particular club in the clubs database.
       "joinedAt": "2021-04-04",
       "nickname": null,
       "imageURL": null,
-      "id": "75c2a2c0-47e9-4fa6-ac42-8a4971d14c59"
+      "id": "75c2a2c0-47e9-4fa6-ac42-8a4971d14c59",
+      "role": "MEMBER"
     },
     {
       "studentID": "afe77ced-0bf2-4f6f-901c-9877def51b27",
       "joinedAt": "2021-04-04",
       "nickname": null,
       "imageURL": null,
-      "id": "4daf9d6a-75e7-4f4b-8e25-6a1812e19d4a"
+      "id": "4daf9d6a-75e7-4f4b-8e25-6a1812e19d4a",
+      "role": "STAFF"
     }
   ]
 }
@@ -356,6 +358,7 @@ Create a new member in a particular club in the clubs database. Requires an `app
 | studentID   | String **Required** | Club member's student ID (not the same as student code).  |
 | imageURL    | String              | Club member's profile image URL. Must be a valid URI.     |
 | joinedAt    | String **Required** | Club member's join date. Must be **ISO8601 compliant**.   |
+| role        | `MEMBER` or `STAFF` | Club member's role. Defaults to `MEMBER`.                 |
 
 #### Response
 
@@ -368,7 +371,8 @@ Create a new member in a particular club in the clubs database. Requires an `app
     "joinedAt": "2021-04-04",
     "nickname": null,
     "imageURL": null,
-    "id": "4daf9d6a-75e7-4f4b-8e25-6a1812e19d4a"
+    "id": "4daf9d6a-75e7-4f4b-8e25-6a1812e19d4a",
+    "role": "MEMBER"
   }
 }
 ```
@@ -388,7 +392,8 @@ Get a particular member from a particular club from the clubs database.
     "joinedAt": "2021-04-04",
     "nickname": null,
     "imageURL": null,
-    "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a"
+    "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a",
+    "role": "MEMBER"
   }
 }
 ```
@@ -408,7 +413,8 @@ Delete a particular member from a particular club from the clubs database.
     "joinedAt": "2021-04-04",
     "imageURL": null,
     "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a",
-    "nickname": "Hi"
+    "nickname": "Hi",
+    "role": "MEMBER"
   }
 }
 ```
@@ -417,10 +423,11 @@ Delete a particular member from a particular club from the clubs database.
 
 Update a particular member from a particular club from the clubs database. Requires an `application/json` body with the following properties.
 
-| Property    | Type      | Description                                               |
-|-------------|-----------|-----------------------------------------------------------|
-| nickname    | String    | Club member's nickname. Can be empty or set to `null`.    |
-| imageURL    | String    | Club member's profile image URL. Must be a valid URI.     |
+| Property    | Type                | Description                                               |
+|-------------|---------------------|-----------------------------------------------------------|
+| nickname    | String              | Club member's nickname. Can be empty or set to `null`.    |
+| imageURL    | String              | Club member's profile image URL. Must be a valid URI.     |
+| role        | `MEMBER` or `STAFF` | Club member's role.                                       |
 
 > Only add the properties you wish to edit.
 
@@ -435,7 +442,8 @@ Update a particular member from a particular club from the clubs database. Requi
     "joinedAt": "2021-04-04",
     "imageURL": null,
     "id": "2ad12899-232d-4499-9cbb-a9bd7fe42f8a",
-    "nickname": "Nickname"
+    "nickname": "Nickname",
+    "role": "MEMBER"
   }
 }
 ```
