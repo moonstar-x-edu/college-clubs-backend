@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const Response = require('../classes/Response');
 const { onlySupportedMethods } = require('../middleware');
 const { InvalidBodyError, ResourceAlreadyExistsError } = require('../errors');
-const { Club, ClubMember } = require('../classes/entities');
+const { Club, ClubMember, Post } = require('../classes/entities');
 const { clubs, students } = require('../classes/db');
 
 const router = express.Router();
@@ -154,5 +154,40 @@ router.put('/club/:clubID/member/:memberID', (req, res, next) => {
 });
 
 router.all('/club/:clubID/member/:memberID', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+
+router.get('/club/:clubID/posts', (req, res, next) => {
+  const { clubID } = req.params;
+
+  return clubs.postsManager.getAllPosts(clubID)
+    .then((data) => {
+      const response = new Response(Response.CODES.OK);
+      return res.status(response.code).send(response.create(data));
+    })
+    .catch(next);
+});
+
+router.post('/club/:clubID/posts', (req, res, next) => {
+  const { body, params: { clubID } } = req;
+
+  if (!body || Object.keys(body).length < 1) {
+    throw new InvalidBodyError(Response.DEFAULT_MESSAGES.MISSING_JSON_BODY);
+  }
+
+  if (!body.author) {
+    throw new InvalidBodyError('An author property needs to be specified!');
+  }
+
+  return clubs.membersManager.getClubMember(clubID, body.author)
+    .then(() => {
+      return clubs.postsManager.createPost(clubID, Post.from(body))
+        .then((created) => {
+          const response = new Response(Response.CODES.CREATED);
+          return res.status(response.code).send(response.create(created));
+        });
+    })
+    .catch(next);
+});
+
+router.all('/club/:clubID/posts', onlySupportedMethods(['GET', 'POST']));
 
 module.exports = router;
