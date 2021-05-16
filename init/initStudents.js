@@ -15,7 +15,7 @@ const lastNames = [
 ];
 
 const randomCode = () => {
-  return Math.floor(Math.random() * 1000000);
+  return Math.floor(100000 + Math.random() * 900000);
 };
 
 const email = 'email@example.com';
@@ -46,7 +46,7 @@ const randomStudent = () => {
 const createStudents = (db, number) => {
   const students = new Array(number).fill(null).map(() => Student.from(randomStudent()));
 
-  executeSequentially(students, (student) => {
+  return executeSequentially(students, (student) => {
     return db.create(student);
   }, (student) => {
     logger.info(`Created Student ${student.name}`);
