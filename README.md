@@ -24,6 +24,14 @@ You'll need to either set the following environment variables or create a `.env`
 HTTP_PORT=4000
 ```
 
+## Initializing
+
+You can initialize the database with mocked data by running the following command:
+
+```text
+npm run init
+```
+
 ## Running
 
 If in development, you can run the server with reload-on-save with:
