@@ -26,8 +26,11 @@ const executeSequentially = (arr, fn, thenFn) => {
     });
 };
 
+const randomBoolean = () => !!Math.round(Math.random());
+
 module.exports = {
   clearDataSync,
   randomArrayItem,
-  executeSequentially
+  executeSequentially,
+  randomBoolean
 };
