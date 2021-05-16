@@ -22,20 +22,24 @@ class ClubMember {
   }
 }
 
+ClubMember.ROLES = ['MEMBER', 'STAFF'];
+
 ClubMember.SCHEMA = {
   CREATE: Joi.object({
     id: Joi.forbidden(),
     nickname: Joi.string().trim().allow(null).allow('').default(null),
     imageURL: Joi.string().uri().allow(null).allow('').default(null),
     joinedAt: Joi.string().isoDate().required(),
-    studentID: Joi.string().trim().required()
+    studentID: Joi.string().trim().required(),
+    role: Joi.string().valid(...ClubMember.ROLES).default('MEMBER')
   }),
   UPDATE: Joi.object({
     id: Joi.forbidden(),
     nickname: Joi.string().trim(),
     imageURL: Joi.string().uri().allow(null).allow(''),
     joinedAt: Joi.forbidden(),
-    studentID: Joi.forbidden()
+    studentID: Joi.forbidden(),
+    role: Joi.string().valid(...ClubMember.ROLES)
   })
 };
 
