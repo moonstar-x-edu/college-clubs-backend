@@ -1,6 +1,6 @@
 const logger = require('@greencoast/logger');
 const { Student } = require('../src/classes/entities');
-const { randomArrayItem } = require('./utils');
+const { randomArrayItem, executeSequentially } = require('./utils');
 
 const names = [
   'Christian',
@@ -44,12 +44,13 @@ const randomStudent = () => {
 };
 
 const createStudents = (db, number) => {
-  return Promise.all(new Array(number).fill(null).map(() => {
-    return db.create(Student.from(randomStudent()))
-      .then((student) => {
-        logger.info(`Created Student ${student.name}`);
-      });
-  }));
+  const students = new Array(number).fill(null).map(() => Student.from(randomStudent()));
+
+  executeSequentially(students, (student) => {
+    return db.create(student);
+  }, (student) => {
+    logger.info(`Created Student ${student.name}`);
+  });
 };
 
 module.exports = {

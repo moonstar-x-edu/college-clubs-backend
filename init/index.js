@@ -8,7 +8,7 @@ const initialize = async() => {
   const studentsDB = new StudentDatabase();
 
   setTimeout(async() => {
-    await createStudents(studentsDB, 5);
+    createStudents(studentsDB, 5);
   }, 1000);
 };
 

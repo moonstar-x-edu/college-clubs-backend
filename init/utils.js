@@ -16,7 +16,18 @@ const randomArrayItem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+const executeSequentially = (arr, fn, thenFn) => {
+  return fn(arr.shift())
+    .then((x) => {
+      thenFn(x);
+      if (arr.length > 0) {
+        return executeSequentially(arr, fn, thenFn);
+      }
+    });
+};
+
 module.exports = {
   clearDataSync,
-  randomArrayItem
+  randomArrayItem,
+  executeSequentially
 };
