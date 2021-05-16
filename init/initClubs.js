@@ -29,7 +29,7 @@ const randomClub = () => {
 const createClubs = (db, number) => {
   const clubs = new Array(number).fill(null).map(() => Club.from(randomClub()));
 
-  executeSequentially(clubs, (club) => {
+  return executeSequentially(clubs, (club) => {
     return db.create(club);
   }, (club) => {
     logger.info(`Created Club ${club.name}`);
