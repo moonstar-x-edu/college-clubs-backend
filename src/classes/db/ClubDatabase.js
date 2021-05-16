@@ -1,5 +1,6 @@
 const SQLiteDatabase = require('./SQLiteDatabase');
 const ClubMembersManager = require('./ClubMembersManager');
+const ClubPostsManager = require('./ClubPostsManager');
 const { ResourceAlreadyExistsError, ResourceNotFoundError, InvalidObjectTypeError, DatabaseError } = require('../../errors');
 const { Club } = require('../entities');
 
@@ -11,6 +12,7 @@ class ClubDatabase extends SQLiteDatabase {
     this._prepareKeys(this.clubs);
 
     this.membersManager = new ClubMembersManager(this._createStore('members'));
+    this.postsManager = new ClubPostsManager(this._createStore('posts'));
   }
 
   async create(club) {
@@ -29,10 +31,11 @@ class ClubDatabase extends SQLiteDatabase {
     const keys = await this.getKeys(this.clubs);
     await this.setKeys(this.clubs, [...keys, club.id]);
 
-    const createdKeysForClub = await this.membersManager.createKeysForClub(club.id);
+    const createdKeysForMembers = await this.membersManager.createKeysForClub(club.id);
+    const createdKeysForPosts = await this.postsManager.createKeysForClub(club.id);
 
-    if (!createdKeysForClub) {
-      throw new DatabaseError(`Keys for ${club.id} already existed! Did the club database and members go out-of-sync?`);
+    if (!createdKeysForMembers || !createdKeysForPosts) {
+      throw new DatabaseError(`Keys for ${club.id} already existed! Did the club database and members/posts go out-of-sync?`);
     }
 
     return club;
@@ -63,14 +66,16 @@ class ClubDatabase extends SQLiteDatabase {
 
     try {
       await this.membersManager.deleteAllClubMembers(old.id);
+      await this.postsManager.deleteAllPosts(old.id);
 
-      const deletedKeysForClub = await this.membersManager.deleteKeysForClub(old.id);
+      const deletedKeysForMembers = await this.membersManager.deleteKeysForClub(old.id);
+      const deletedKeysForPosts = await this.postsManager.deleteKeysForClub(old.id);
   
-      if (!deletedKeysForClub) {
+      if (!deletedKeysForMembers || !deletedKeysForPosts) {
         throw new Error(); // Will get re-thrown as proper error instance.
       }
     } catch (err) {
-      throw new DatabaseError(`Keys for ${old.id} did not exist! Did the club database and members go out-of-sync?`);
+      throw new DatabaseError(`Keys for ${old.id} did not exist! Did the club database and members/posts go out-of-sync?`);
     }
     
 
