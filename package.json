@@ -8,7 +8,8 @@
     "start": "node ./src/app.js",
     "dev": "nodemon npm start",
     "lint:errors-only": "eslint src --quiet",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "init": "node ./init"
   },
   "engines": {
     "node": ">=12.0.0"
