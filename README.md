@@ -601,6 +601,60 @@ Update a particular post from a particular club from the clubs database. Require
 }
 ```
 
+### PUT /api/club/:clubID/post/:postID/like
+
+Increment the like count of a particular post from a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+    "content": "new content",
+    "createdAt": "2021-04-04",
+    "likes": 10,
+    "media": [
+      {
+        "url": "http://example.com/image.jpg",
+        "description": "my image"
+      }
+    ],
+    "public": false,
+    "id": "33090d9f-486f-4939-b2f5-c497b53a5622"
+  }
+}
+```
+
+### PUT /api/club/:clubID/post/:postID/dislike
+
+Decrement the like count of a particular post from a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+    "content": "new content",
+    "createdAt": "2021-04-04",
+    "likes": 9,
+    "media": [
+      {
+        "url": "http://example.com/image.jpg",
+        "description": "my image"
+      }
+    ],
+    "public": false,
+    "id": "33090d9f-486f-4939-b2f5-c497b53a5622"
+  }
+}
+```
+
 ## Authors
 
 This project was created in pair-programming by Raí Díaz, José Luis Contreras and Christian López.
