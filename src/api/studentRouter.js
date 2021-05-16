@@ -57,7 +57,7 @@ router.delete('/student/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/student/:id', (req, res, next) => {
+router.patch('/student/:id', (req, res, next) => {
   const { body, params: { id } } = req;
 
   if (!body || Object.keys(body).length < 1) {
@@ -72,6 +72,6 @@ router.put('/student/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.all('/student/:id', onlySupportedMethods(['GET', 'DELETE', 'PUT']));
+router.all('/student/:id', onlySupportedMethods(['GET', 'DELETE', 'PATCH']));
 
 module.exports = router;
