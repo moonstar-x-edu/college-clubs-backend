@@ -448,6 +448,159 @@ Update a particular member from a particular club from the clubs database. Requi
 }
 ```
 
+### GET /api/club/:clubID/posts
+
+Get all the posts inside a particular club in the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": [
+    {
+      "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+      "content": "post content",
+      "createdAt": "2021-04-04",
+      "likes": 0,
+      "media": [],
+      "public": true,
+      "id": "f36a2cf9-6449-4001-959b-10b290d4e1bb"
+    },
+    {
+      "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+      "content": "new content",
+      "createdAt": "2021-04-04",
+      "likes": 10,
+      "media": [
+        {
+          "url": "http://example.com/image.jpg",
+          "description": "my image"
+        }
+      ],
+      "public": false,
+      "id": "33090d9f-486f-4939-b2f5-c497b53a5622"
+    }
+  ]
+}
+```
+
+### POST /api/club/:clubID/posts
+
+Create a new post in a particular club in the clubs database. Requires an `application/json` body with the following properties. The author of the post must be part of the club.
+
+| Property          | Type                | Description                                                                         |
+|-------------------|---------------------|-------------------------------------------------------------------------------------|
+| author            | String **Required** | Post's author's member ID.                                                          |
+| content           | String **Required** | Post's content. Cannot be longer than **2000** characters.                          |
+| likes             | Number              | Post's like count. Needs to be a positive number. Defaults to **0**.                |
+| createdAt         | String **Required** | Post's creation date. Must be **ISO8601 compliant**.                                |
+| public            | Boolean             | Whether the post should be visible to anyone or just members. Defaults to `true`.   |
+| media             | Array               | Post's attached media. Defaults to `[]`.                                            |
+| media.url         | String **Required** | Media's URL. Must be a valid URI.                                                   |
+| media.description | String              | Media's description. Cannot be longer than **1024** characters. Defaults to `null`. |
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 201,
+  "data": {
+    "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+    "content": "post content",
+    "createdAt": "2021-04-04",
+    "likes": 0,
+    "media": [],
+    "public": true,
+    "id": "33090d9f-486f-4939-b2f5-c497b53a5622"
+  }
+}
+```
+
+### GET /api/club/:clubID/post/:postID
+
+Get a particular post from a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+    "content": "post content",
+    "createdAt": "2021-04-04",
+    "likes": 0,
+    "media": [],
+    "public": true,
+    "id": "deaca84c-1580-4f1d-b2af-4e3fa4f74277"
+  }
+}
+```
+
+### DELETE /api/club/:clubID/post/:postID
+
+Delete a particular post from a particular club from the clubs database.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+    "content": "post content",
+    "createdAt": "2021-04-04",
+    "likes": 0,
+    "media": [],
+    "public": true,
+    "id": "deaca84c-1580-4f1d-b2af-4e3fa4f74277"
+  }
+}
+```
+
+### PUT /api/club/:clubID/post/:postID
+
+Update a particular post from a particular club from the clubs database. Requires an `application/json` body with the following properties.
+
+| Property          | Type     | Description                                                          |
+|-------------------|----------|----------------------------------------------------------------------|
+| content           | String   | Post's content. Cannot be longer than **2000** characters.           |
+| likes             | Number   | Post's like count. Needs to be a positive number. Defaults to **0**. |
+| public            | Boolean  | Whether the post should be visible to anyone or just members.        |
+| media             | Array    | Post's attached media.                                               |
+| media.url         | String   | Media's URL. Must be a valid URI.                                    |
+| media.description | String   | Media's description. Cannot be longer than **1024** characters.      |
+
+> Only add the properties you wish to edit.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "author": "25082523-3a3e-4d7e-8e4d-c63773dc9f46",
+    "content": "new content",
+    "createdAt": "2021-04-04",
+    "likes": 10,
+    "media": [
+      {
+        "url": "http://example.com/image.jpg",
+        "description": "my image"
+      }
+    ],
+    "public": false,
+    "id": "33090d9f-486f-4939-b2f5-c497b53a5622"
+  }
+}
+```
+
 ## Authors
 
 This project was created in pair-programming by Raí Díaz, José Luis Contreras and Christian López.
